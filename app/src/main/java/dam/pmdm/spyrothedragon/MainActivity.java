@@ -115,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
             // Programa el cierre del fragmento después de 1350ms (un ciclo completo)
             bienvenidaBinding.getRoot().postDelayed(() -> {
                 // Oculta el layout de bienvenida.
+<<<<<<< HEAD
+=======
+
+>>>>>>> 86ce66984cd38b9861f80b096b1a41b8da9ca76d
                 bienvenidaBinding.bienvenidaContainer.setVisibility(View.GONE);
                 new GuideManager(MainActivity.this).startGuide();
             }, 1600);
@@ -122,5 +126,17 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+<<<<<<< HEAD
     }
 }
+=======
+    });
+
+
+
+
+
+
+}
+}
+>>>>>>> 86ce66984cd38b9861f80b096b1a41b8da9ca76d
