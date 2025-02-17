@@ -1,4 +1,4 @@
-package dam.pmdm.spyrothedragon.ui;
+package dam.pmdm.spyrothedragon;
 
 import android.app.Activity;
 import android.view.View;
@@ -14,8 +14,6 @@ import androidx.transition.TransitionManager;
 import java.util.Arrays;
 import java.util.List;
 
-import dam.pmdm.spyrothedragon.R;
-
 public class GuideManager {
     private final Activity activity;
     private final ViewGroup container; // El contenedor principal de la actividad (por ejemplo, main_container)
@@ -25,8 +23,9 @@ public class GuideManager {
     // Lista de pasos de la guía
     private final List<GuideStep> steps = Arrays.asList(
             new GuideStep(R.id.nav_characters, "Aquí podrás conocer a todos los personajes del mundo de Spyro."),
-            new GuideStep(R.id.nav_worlds,  "En este lugar podrás explorar las distintas áreas del mundo de Spyro"),
-            new GuideStep(R.id.nav_collectibles,  "Aquí podrás saber cuáles son los coleccionables del mundo de Spyro")
+            new GuideStep(R.id.nav_worlds, "En este lugar podrás explorar las distintas áreas del mundo de Spyro"),
+            new GuideStep(R.id.nav_collectibles, "Aquí podrás saber cuáles son los coleccionables del mundo de Spyro"),
+            new GuideStep(R.id.action_info, "Aqui podras encontrar información sobre los desarrolladores")
     );
 
     public GuideManager(Activity activity) {
@@ -37,6 +36,12 @@ public class GuideManager {
     public void startGuide() {
         guideOverlay = activity.getLayoutInflater().inflate(R.layout.guide_overlay, container, false);
         container.addView(guideOverlay);
+
+        guideOverlay.setClickable(true);
+        guideOverlay.setClickable(true);
+        guideOverlay.setFocusable(true);
+        guideOverlay.setFocusableInTouchMode(true);
+        guideOverlay.requestFocus();
 
         Button btnNext = guideOverlay.findViewById(R.id.btnNext);
         Button btnSkip = guideOverlay.findViewById(R.id.btnSkip);
@@ -53,18 +58,23 @@ public class GuideManager {
             return;
         }
         GuideStep step = steps.get(stepIndex);
-
-
         TextView description = guideOverlay.findViewById(R.id.guideText);
         ImageView ringHighlight = guideOverlay.findViewById(R.id.ringContainer);
-
+        ringHighlight.setVisibility(View.VISIBLE);
 
         description.setText(step.description);
 
         // Posicionar el anillo sobre el botón
         View targetButton = activity.findViewById(step.targetViewId);
         if (targetButton != null) {
-            targetButton.performClick();
+
+            if (step.targetViewId != R.id.action_info) {
+                targetButton.performClick();
+            }else{
+                float altura = guideOverlay.getHeight();
+                System.out.println("Altura " +  altura);
+                description.setY(100);
+            }
             // Esperar a que se mida la vista
             targetButton.post(() -> {
                 int[] location = new int[2];
@@ -81,8 +91,9 @@ public class GuideManager {
 
                 // Opcional: animar el anillo (por ejemplo, con un fade-in)
                 ringHighlight.setAlpha(0f);
-                ringHighlight.animate().alpha(1f).setDuration(300).start();
+                ringHighlight.animate().alpha(1f).setDuration(100).start();
             });
+
 
         }
     }
@@ -105,7 +116,6 @@ public class GuideManager {
     // Clase para definir cada paso
     static class GuideStep {
         int targetViewId;
-        String title;
         String description;
 
         GuideStep(int targetViewId, String description) {

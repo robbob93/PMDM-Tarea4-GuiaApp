@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -19,7 +18,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import dam.pmdm.spyrothedragon.databinding.ActivityMainBinding;
 import dam.pmdm.spyrothedragon.databinding.BienvenidaLayoutBinding;
-import dam.pmdm.spyrothedragon.ui.GuideManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     destination.getId() == R.id.navigation_collectibles) {
                 // Para las pantallas de los tabs, no queremos que aparezca la flecha de atrás
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            }
-            else {
+            } else {
                 // Si se navega a una pantalla donde se desea mostrar la flecha de atrás, habilítala
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
@@ -67,8 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean selectedBottomMenu(@NonNull MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.nav_characters)
             navController.navigate(R.id.navigation_characters);
-        else
-        if (menuItem.getItemId() == R.id.nav_worlds)
+        else if (menuItem.getItemId() == R.id.nav_worlds)
             navController.navigate(R.id.navigation_worlds);
         else
             navController.navigate(R.id.navigation_collectibles);
@@ -102,13 +98,14 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void initializeGuide(){
+    private void initializeGuide() {
 
         AnimationDrawable animation;
-
         bienvenidaBinding.imageView.setBackgroundResource(R.drawable.spyro_jump_animation);
-
         animation = (AnimationDrawable) bienvenidaBinding.imageView.getBackground();
+
+        binding.constraintLayout.setTouchscreenBlocksFocus(true);
+
 
         // Obtén el botón "Comenzar"
         Button btnComenzar = bienvenidaBinding.btnCloseOverlay;
@@ -118,19 +115,12 @@ public class MainActivity extends AppCompatActivity {
             // Programa el cierre del fragmento después de 1350ms (un ciclo completo)
             bienvenidaBinding.getRoot().postDelayed(() -> {
                 // Oculta el layout de bienvenida.
-                // Si tienes un contenedor específico, úsalo, por ejemplo:
                 bienvenidaBinding.bienvenidaContainer.setVisibility(View.GONE);
                 new GuideManager(MainActivity.this).startGuide();
-        }, 1600);
+            }, 1600);
 
 
+        });
 
-    });
-
-
-
-
-
-
-}
+    }
 }
