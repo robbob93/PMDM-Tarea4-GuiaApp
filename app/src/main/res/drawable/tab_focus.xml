@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:shape="ring"
+    android:useLevel="false"
+    android:innerRadiusRatio="24"
+    android:thicknessRatio="2.5">
+
+    <!-- Color del anillo -->
+    <solid android:color="@color/purple" />
+    <gradient android:startColor="@color/purple"
+        android:gradientRadius="60%"
+        android:type="radial"
+/>
+
+
+
+</shape>

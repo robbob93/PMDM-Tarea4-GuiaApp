@@ -1,30 +1,43 @@
 package dam.pmdm.spyrothedragon;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import dam.pmdm.spyrothedragon.databinding.ActivityMainBinding;
+import dam.pmdm.spyrothedragon.databinding.BienvenidaLayoutBinding;
+import dam.pmdm.spyrothedragon.ui.GuideManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     NavController navController = null;
+    private BienvenidaLayoutBinding bienvenidaBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        bienvenidaBinding = binding.includeLayout;
         setContentView(binding.getRoot());
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
         if (navHostFragment != null) {
@@ -48,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        initializeGuide();
     }
 
     private boolean selectedBottomMenu(@NonNull MenuItem menuItem) {
@@ -88,6 +102,35 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    private void initializeGuide(){
+
+        AnimationDrawable animation;
+
+        bienvenidaBinding.imageView.setBackgroundResource(R.drawable.spyro_jump_animation);
+
+        animation = (AnimationDrawable) bienvenidaBinding.imageView.getBackground();
+
+        // Obtén el botón "Comenzar"
+        Button btnComenzar = bienvenidaBinding.btnCloseOverlay;
+        btnComenzar.setOnClickListener(v -> {
+            // Inicia la animación
+            animation.start();
+            // Programa el cierre del fragmento después de 1350ms (un ciclo completo)
+            bienvenidaBinding.getRoot().postDelayed(() -> {
+                // Oculta el layout de bienvenida.
+                // Si tienes un contenedor específico, úsalo, por ejemplo:
+                bienvenidaBinding.bienvenidaContainer.setVisibility(View.GONE);
+                new GuideManager(MainActivity.this).startGuide();
+        }, 1600);
 
 
+
+    });
+
+
+
+
+
+
+}
 }
