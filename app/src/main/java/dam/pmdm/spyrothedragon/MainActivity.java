@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             // Programa el cierre del fragmento después de 1350ms (un ciclo completo)
             bienvenidaBinding.getRoot().postDelayed(() -> {
                 // Oculta el layout de bienvenida.
-                // Si tienes un contenedor específico, úsalo, por ejemplo:
+
                 bienvenidaBinding.bienvenidaContainer.setVisibility(View.GONE);
                 new GuideManager(MainActivity.this).startGuide();
         }, 1600);
