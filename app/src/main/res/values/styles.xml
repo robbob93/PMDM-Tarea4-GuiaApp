@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GuideContainerStyle">
+        <!-- Atributos que afectan al fondo del layout -->
+        <item name="android:background">@color/lightPurple</item>
+        <!-- Si deseas que todos los TextView hijos tengan cierto color o tamaño,
+             tendrás que definir estilos para ellos o usar un tema -->
+    </style>
+    <style name="GuideTextStyle">
+        <item name="android:textColor">@color/overPurple</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+
+
+</resources>

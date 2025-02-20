@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/guideSummaryLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    style="@style/GuideContainerStyle"
+
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/summaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Has completado la guía!"
+        style="@style/GuideTextStyle"
+        android:textSize="25dp"/>
+
+
+    <GridLayout
+        android:id="@+id/stepsGrid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="4"
+        android:padding="16dp">
+
+        <!-- Paso 1 -->
+        <ImageView
+            android:id="@+id/step1Icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/completado" />
+
+        <TextView
+            android:id="@+id/step1Text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Visualización de pantalla de personajes"
+            android:layout_columnWeight="1"
+            style="@style/GuideTextStyle" />
+
+        <ImageView
+            android:id="@+id/step2Icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/completado"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/step2Text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Visualización de pantalla de mundos"
+            android:layout_columnWeight="1"
+            style="@style/GuideTextStyle"/>
+
+        <ImageView
+            android:id="@+id/step3Icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/completado"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/step3Text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Visualización de pantalla de coleccionables"
+            android:layout_columnWeight="1"
+            style="@style/GuideTextStyle"/>
+        <ImageView
+            android:id="@+id/step4Icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/completado"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/step4Text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Visualización de pantalla de información"
+            android:layout_columnWeight="1"
+
+            style="@style/GuideTextStyle"/>
+    </GridLayout>
+
+
+    <Button
+        android:id="@+id/btnFinishGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ir a la app" />
+</LinearLayout>

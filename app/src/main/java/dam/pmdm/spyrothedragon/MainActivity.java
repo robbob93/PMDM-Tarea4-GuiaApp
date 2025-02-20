@@ -1,6 +1,14 @@
 package dam.pmdm.spyrothedragon;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,9 +29,17 @@ import dam.pmdm.spyrothedragon.databinding.BienvenidaLayoutBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final boolean mostrarGuiaSiempre = true;
+
     private ActivityMainBinding binding;
     NavController navController = null;
     private BienvenidaLayoutBinding bienvenidaBinding;
+    private static final String PREFS_NAME = "MyPrefs";
+    private static final String KEY_GUIDE_SHOWN = "guide_shown";
+
+    private SoundPool soundPool;
+    private int soundContinue;
+    private int soundEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        soundPool = new SoundPool.Builder().setMaxStreams(1).build();
+        soundContinue = soundPool.load(this, R.raw.continue_guide, 1);
+        soundEnd = soundPool.load(this,R.raw.end_guide,1);
 
 
         Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
@@ -58,7 +78,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        initializeGuide();
+
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean guideShown = prefs.getBoolean(KEY_GUIDE_SHOWN, false);
+
+        System.out.println("GuideShown: " +  guideShown);
+        if (!guideShown || mostrarGuiaSiempre) {
+            // Mostrar la guía
+            initializeGuide();
+            // Marcar la guía como mostrada
+            prefs.edit().putBoolean(KEY_GUIDE_SHOWN, true).apply();
+        }else{
+            bienvenidaBinding.bienvenidaContainer.setVisibility(View.GONE);
+        }
+
     }
 
     private boolean selectedBottomMenu(@NonNull MenuItem menuItem) {
@@ -100,43 +133,53 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeGuide() {
 
-        AnimationDrawable animation;
-        bienvenidaBinding.imageView.setBackgroundResource(R.drawable.spyro_jump_animation);
-        animation = (AnimationDrawable) bienvenidaBinding.imageView.getBackground();
+        AnimationDrawable animationSpyro;
+        AnimationDrawable animationBottonFlames;
+        bienvenidaBinding.spyroJump.setBackgroundResource(R.drawable.spyro_jump_animation);
+        animationSpyro = (AnimationDrawable) bienvenidaBinding.spyroJump.getBackground();
+        bienvenidaBinding.flames.setBackgroundResource(R.drawable.flames_animation);
+        animationBottonFlames = (AnimationDrawable) bienvenidaBinding.flames.getBackground();
 
+        animationBottonFlames.setColorFilter(Color.parseColor("#70ffff00"), PorterDuff.Mode.SRC_ATOP);
+        animationBottonFlames.start();
         binding.constraintLayout.setTouchscreenBlocksFocus(true);
 
 
         // Obtén el botón "Comenzar"
-        Button btnComenzar = bienvenidaBinding.btnCloseOverlay;
+        Button btnComenzar = bienvenidaBinding.btnStartGuide;
         btnComenzar.setOnClickListener(v -> {
+            playSound(soundContinue);
             // Inicia la animación
-            animation.start();
+            animationSpyro.start();
+
             // Programa el cierre del fragmento después de 1350ms (un ciclo completo)
-            bienvenidaBinding.getRoot().postDelayed(() -> {
-                // Oculta el layout de bienvenida.
-<<<<<<< HEAD
-=======
-
->>>>>>> 86ce66984cd38b9861f80b096b1a41b8da9ca76d
-                bienvenidaBinding.bienvenidaContainer.setVisibility(View.GONE);
-                new GuideManager(MainActivity.this).startGuide();
-            }, 1600);
-
-
+            bienvenidaBinding.getRoot().postDelayed(() ->
+                            fadeOutAndStartGuide(bienvenidaBinding.bienvenidaContainer),
+                    1600);
         });
+    }
 
-<<<<<<< HEAD
+    public void playSound(int sound) {
+        soundPool.play(sound, 1f, 1f, 0, 0, 1f);
+    }
+
+    private void fadeOutAndStartGuide(View view) {
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f);
+        fadeOut.setDuration(1000); // Duración de 500ms
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(fadeOut);
+        animatorSet.start();
+
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                view.setVisibility(View.GONE); // Ocultar la vista después del fadeOut
+                new GuideManager(MainActivity.this).startGuide(); // Iniciar la guía
+            }
+        });
     }
 }
-=======
-    });
 
 
-
-
-
-
-}
-}
->>>>>>> 86ce66984cd38b9861f80b096b1a41b8da9ca76d

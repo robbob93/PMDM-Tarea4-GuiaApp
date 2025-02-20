@@ -1,6 +1,7 @@
 package dam.pmdm.spyrothedragon;
 
 import android.app.Activity;
+import android.media.SoundPool;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,6 +20,12 @@ public class GuideManager {
     private final ViewGroup container; // El contenedor principal de la actividad (por ejemplo, main_container)
     private View guideOverlay;
     private int currentStep = 0;
+    ImageView ringHighlight;
+    TextView description;
+
+    private SoundPool soundPool;
+    private int soundContinue;
+    private int soundEnd;
 
     // Lista de pasos de la guía
     private final List<GuideStep> steps = Arrays.asList(
@@ -45,8 +52,23 @@ public class GuideManager {
 
         Button btnNext = guideOverlay.findViewById(R.id.btnNext);
         Button btnSkip = guideOverlay.findViewById(R.id.btnSkip);
+        ringHighlight = guideOverlay.findViewById(R.id.ringContainer);
+        description = guideOverlay.findViewById(R.id.guideText);
 
-        btnNext.setOnClickListener(v -> nextStep());
+        soundPool = new SoundPool.Builder().setMaxStreams(1).build();
+        soundContinue = soundPool.load(activity, R.raw.continue_guide, 1);
+        soundEnd = soundPool.load(activity,R.raw.end_guide,1);
+
+
+        btnNext.setOnClickListener(v -> {
+            if (activity instanceof MainActivity && currentStep<3) {  // Verifica que sea MainActivity
+                System.out.println("Current step: " +  currentStep);
+                ((MainActivity) activity).playSound(soundContinue);  // Llamada a playSound() de la MainActivity
+            } else if (currentStep ==3) {
+                ((MainActivity) activity).playSound(soundEnd);
+            }
+            nextStep();
+        });
         btnSkip.setOnClickListener(v -> finishGuide());
 
         showStep(currentStep);
@@ -54,27 +76,35 @@ public class GuideManager {
 
     private void showStep(int stepIndex) {
         if (stepIndex >= steps.size()) {
-            finishGuide();
+            showSummary();
             return;
         }
         GuideStep step = steps.get(stepIndex);
-        TextView description = guideOverlay.findViewById(R.id.guideText);
-        ImageView ringHighlight = guideOverlay.findViewById(R.id.ringContainer);
-        ringHighlight.setVisibility(View.VISIBLE);
 
         description.setText(step.description);
+        description.setVisibility(View.VISIBLE);
 
         // Posicionar el anillo sobre el botón
         View targetButton = activity.findViewById(step.targetViewId);
         if (targetButton != null) {
 
-            if (step.targetViewId != R.id.action_info) {
-                targetButton.performClick();
-            }else{
-                float altura = guideOverlay.getHeight();
-                System.out.println("Altura " +  altura);
+
+            if (step.targetViewId == R.id.action_info) {
                 description.setY(100);
+                Button btnNext = guideOverlay.findViewById(R.id.btnNext);
+                btnNext.setEnabled(false);
+                // En vez de bloquear la interacción, simulamos el clic después de 2 segundos
+                targetButton.postDelayed(() -> {
+                    targetButton.performClick();
+
+                    btnNext.setEnabled(true);
+                }, 1500);
+            } else {
+                // Para los demás pasos, se simula el clic inmediatamente:
+                targetButton.performClick();
             }
+
+
             // Esperar a que se mida la vista
             targetButton.post(() -> {
                 int[] location = new int[2];
@@ -87,11 +117,12 @@ public class GuideManager {
                 // Convertir coordenadas de pantalla a coordenadas del contenedor (puede variar según tu layout)
                 ringHighlight.setX(centerX - ringHighlight.getWidth() / 2f);
                 ringHighlight.setY(centerY - ringHighlight.getHeight() / 1.8f);
-                ringHighlight.setVisibility(View.VISIBLE);
 
-                // Opcional: animar el anillo (por ejemplo, con un fade-in)
+                ringHighlight.setVisibility(View.VISIBLE);
                 ringHighlight.setAlpha(0f);
-                ringHighlight.animate().alpha(1f).setDuration(100).start();
+                ringHighlight.animate().alpha(1f).setDuration(1000).start();
+                description.setAlpha(0f);
+                description.animate().alpha(1f).setDuration(1000).start();
             });
 
 
@@ -99,11 +130,28 @@ public class GuideManager {
     }
 
     private void nextStep() {
+
         currentStep++;
-        // Usa una transición para suavizar el cambio (opcional)
+        ringHighlight.setVisibility(View.GONE);
+        description.setVisibility(View.GONE);
         TransitionManager.beginDelayedTransition((ViewGroup) guideOverlay);
         showStep(currentStep);
     }
+    private void showSummary() {
+        // Remover la vista anterior
+        if (guideOverlay != null) {
+            container.removeView(guideOverlay);
+        }
+        // Inflar el layout resumen
+        guideOverlay = activity.getLayoutInflater().inflate(R.layout.resumen_guia, container, false);
+        container.addView(guideOverlay);
+
+        // Configurar el botón para finalizar la guía
+        Button btnFinish = guideOverlay.findViewById(R.id.btnFinishGuide);
+        btnFinish.setOnClickListener(v -> finishGuide());
+    }
+
+
 
     private void finishGuide() {
         // Quita el overlay

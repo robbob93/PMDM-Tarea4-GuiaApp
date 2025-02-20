@@ -8,17 +8,8 @@
     android:layout_height="match_parent"
     android:background="#20000000">
 
-    <!-- Contenedor del anillo -->
-    <ImageView
-        android:id="@+id/ringContainer"
-        android:layout_width="800dp"
-        android:layout_height="800dp"
-        android:background="@drawable/tab_focus"
-        android:layout_gravity="center"
-        android:visibility="gone">
 
 
-    </ImageView>
 
     <LinearLayout
         android:id="@+id/guideButtons"
@@ -44,21 +35,38 @@
             android:layout_marginStart="16dp"
             android:text="Siguiente" />
     </LinearLayout>
+
+    <!-- Contenedor del anillo -->
+    <ImageView
+        android:id="@+id/ringContainer"
+        android:layout_width="800dp"
+        android:layout_height="800dp"
+
+        android:background="@drawable/tab_focus"
+        android:layout_gravity="center"
+        android:visibility="invisible"/>
+
+
+
+
+
     <!-- Texto descriptivo (independiente del anillo) -->
     <TextView
         android:id="@+id/guideText"
+        style="@style/GuideTextStyle"
         android:layout_width="250dp"
+
         android:layout_height="wrap_content"
 
-        android:text="Descripción del paso 1"
-        android:textColor="@android:color/white"
+        android:text="Descripción del paso"
         android:textSize="25sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.776" />
+        app:layout_constraintVertical_bias="0.812" />
 
     <!-- Botones de navegación de la guía -->
 

@@ -15,23 +15,61 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bienvenido a la App inspirada en"
+            style="@style/GuideTextStyle" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@drawable/spyro_title"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bienvenido a la App"
+            android:text="donde podrás rodearte de dragones, visitar nuevos mundos y descubrir sus tesoros"
             android:textSize="24sp"
-            android:textColor="@android:color/white" />
+            style="@style/GuideTextStyle"
+            android:padding="10dp"/>
+        <ImageView
+            android:id="@+id/spyroJump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/btnCloseOverlay"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="20dp">
+            <Button
+                android:id="@+id/btnExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cancelar"
+                android:layout_margin="20dp"/>
+            <Button
+                android:id="@+id/btnStartGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comenzar"
+                android:layout_margin="20dp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <ImageView
+            android:id="@+id/flames"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Comenzar" />
+
+            android:layout_gravity="bottom"/>
+
     </LinearLayout>
+
 </FrameLayout>
