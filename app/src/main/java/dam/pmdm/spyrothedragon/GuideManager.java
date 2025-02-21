@@ -64,7 +64,7 @@ public class GuideManager {
             if (activity instanceof MainActivity && currentStep<3) {  // Verifica que sea MainActivity
                 System.out.println("Current step: " +  currentStep);
                 ((MainActivity) activity).playSound(soundContinue);  // Llamada a playSound() de la MainActivity
-            } else if (currentStep ==3) {
+            } else if (activity instanceof MainActivity && currentStep ==3) {
                 ((MainActivity) activity).playSound(soundEnd);
             }
             nextStep();
@@ -138,7 +138,7 @@ public class GuideManager {
         showStep(currentStep);
     }
     private void showSummary() {
-        // Remover la vista anterior
+        // Quitar la vista anterior
         if (guideOverlay != null) {
             container.removeView(guideOverlay);
         }
