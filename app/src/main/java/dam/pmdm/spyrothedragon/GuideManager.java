@@ -28,12 +28,7 @@ public class GuideManager {
     private int soundEnd;
 
     // Lista de pasos de la guía
-    private final List<GuideStep> steps = Arrays.asList(
-            new GuideStep(R.id.nav_characters, "Aquí podrás conocer a todos los personajes del mundo de Spyro."),
-            new GuideStep(R.id.nav_worlds, "En este lugar podrás explorar las distintas áreas del mundo de Spyro"),
-            new GuideStep(R.id.nav_collectibles, "Aquí podrás saber cuáles son los coleccionables del mundo de Spyro"),
-            new GuideStep(R.id.action_info, "Aqui podras encontrar información sobre los desarrolladores")
-    );
+    private List<GuideStep> steps = Arrays.asList();
 
     public GuideManager(Activity activity) {
         this.activity = activity;
@@ -41,10 +36,18 @@ public class GuideManager {
     }
 
     public void startGuide() {
+
+        steps = Arrays.asList(
+                new GuideStep(R.id.nav_characters, activity.getString(R.string.guide_step1)),
+                new GuideStep(R.id.nav_worlds, activity.getString(R.string.guide_step2)),
+                new GuideStep(R.id.nav_collectibles, activity.getString(R.string.guide_step3)),
+                new GuideStep(R.id.action_info, activity.getString(R.string.guide_step4))
+        );
+
+
         guideOverlay = activity.getLayoutInflater().inflate(R.layout.guide_overlay, container, false);
         container.addView(guideOverlay);
 
-        guideOverlay.setClickable(true);
         guideOverlay.setClickable(true);
         guideOverlay.setFocusable(true);
         guideOverlay.setFocusableInTouchMode(true);
@@ -61,7 +64,7 @@ public class GuideManager {
 
 
         btnNext.setOnClickListener(v -> {
-            if (activity instanceof MainActivity && currentStep<3) {  // Verifica que sea MainActivity
+            if (activity instanceof MainActivity && currentStep<3) {  // Comprueba que sea MainActivity
                 System.out.println("Current step: " +  currentStep);
                 ((MainActivity) activity).playSound(soundContinue);  // Llamada a playSound() de la MainActivity
             } else if (activity instanceof MainActivity && currentStep ==3) {
@@ -93,7 +96,7 @@ public class GuideManager {
                 description.setY(100);
                 Button btnNext = guideOverlay.findViewById(R.id.btnNext);
                 btnNext.setEnabled(false);
-                // En vez de bloquear la interacción, simulamos el clic después de 2 segundos
+                // En vez de bloquear la interacción, simulamos el clic después de unos instantes
                 targetButton.postDelayed(() -> {
                     targetButton.performClick();
 
@@ -114,7 +117,7 @@ public class GuideManager {
                 float centerX = location[0] + targetButton.getWidth() / 2f;
                 float centerY = location[1] + targetButton.getHeight() / 2f;
 
-                // Convertir coordenadas de pantalla a coordenadas del contenedor (puede variar según tu layout)
+                // Convertir coordenadas de pantalla a coordenadas del contenedor
                 ringHighlight.setX(centerX - ringHighlight.getWidth() / 2f);
                 ringHighlight.setY(centerY - ringHighlight.getHeight() / 1.8f);
 
@@ -124,8 +127,6 @@ public class GuideManager {
                 description.setAlpha(0f);
                 description.animate().alpha(1f).setDuration(1000).start();
             });
-
-
         }
     }
 

@@ -18,7 +18,7 @@
         android:id="@+id/summaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¡Has completado la guía!"
+        android:text="@string/title_end_guide"
         style="@style/GuideTextStyle"
         android:textSize="25dp"/>
 
@@ -43,7 +43,7 @@
             android:id="@+id/step1Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Visualización de pantalla de personajes"
+            android:text="@string/end_guide_step1"
             android:layout_columnWeight="1"
             style="@style/GuideTextStyle" />
 
@@ -58,7 +58,7 @@
             android:id="@+id/step2Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Visualización de pantalla de mundos"
+            android:text="@string/end_guide_step2"
             android:layout_columnWeight="1"
             style="@style/GuideTextStyle"/>
 
@@ -73,7 +73,7 @@
             android:id="@+id/step3Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Visualización de pantalla de coleccionables"
+            android:text="@string/end_guide_step3"
             android:layout_columnWeight="1"
             style="@style/GuideTextStyle"/>
         <ImageView
@@ -87,7 +87,7 @@
             android:id="@+id/step4Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Visualización de pantalla de información"
+            android:text="@string/end_guide_step4"
             android:layout_columnWeight="1"
 
             style="@style/GuideTextStyle"/>
@@ -98,5 +98,5 @@
         android:id="@+id/btnFinishGuide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ir a la app" />
+        android:text="@string/come_back_to_app" />
 </LinearLayout>

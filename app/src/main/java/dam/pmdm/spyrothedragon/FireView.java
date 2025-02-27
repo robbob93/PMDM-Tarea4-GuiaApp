@@ -76,7 +76,7 @@ public class FireView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        float baseWidth = fireHeight / 4; // Relación altura /base
+        float baseWidth = fireHeight / 4; // Relación altura/base
 
         // Dibujar llama roja (más grande)
         pathRed.reset();
