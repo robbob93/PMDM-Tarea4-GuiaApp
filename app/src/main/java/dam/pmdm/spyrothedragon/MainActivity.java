@@ -29,7 +29,7 @@ import dam.pmdm.spyrothedragon.databinding.BienvenidaLayoutBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final boolean mostrarGuiaSiempre = false;
+    private final boolean mostrarGuiaSiempre = true;
 
     private ActivityMainBinding binding;
     NavController navController = null;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         soundPool = new SoundPool.Builder().setMaxStreams(1).build();
         soundContinue = soundPool.load(this, R.raw.continue_guide, 1);
-        soundEnd = soundPool.load(this,R.raw.end_guide,1);
+        soundEnd = soundPool.load(this, R.raw.end_guide, 1);
 
 
         Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
@@ -82,16 +82,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         boolean guideShown = prefs.getBoolean(KEY_GUIDE_SHOWN, false);
 
-        System.out.println("GuideShown: " +  guideShown);
         if (!guideShown || mostrarGuiaSiempre) {
             // Mostrar la guía
             initializeGuide();
             // Marcar la guía como mostrada
             prefs.edit().putBoolean(KEY_GUIDE_SHOWN, true).apply();
-        }else{
+        } else {
             bienvenidaBinding.bienvenidaContainer.setVisibility(View.GONE);
         }
-
     }
 
     private boolean selectedBottomMenu(@NonNull MenuItem menuItem) {
@@ -99,10 +97,10 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(R.id.navigation_characters);
         else if (menuItem.getItemId() == R.id.nav_worlds)
             navController.navigate(R.id.navigation_worlds);
-        else
+        else {
             navController.navigate(R.id.navigation_collectibles);
+        }
         return true;
-
     }
 
     @Override
@@ -133,20 +131,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeGuide() {
 
-        AnimationDrawable animationSpyro;
-        AnimationDrawable animationBottonFlames;
         bienvenidaBinding.spyroJump.setBackgroundResource(R.drawable.spyro_jump_animation);
-        animationSpyro = (AnimationDrawable) bienvenidaBinding.spyroJump.getBackground();
+        AnimationDrawable animationSpyro = (AnimationDrawable) bienvenidaBinding.spyroJump.getBackground();
         bienvenidaBinding.flames.setBackgroundResource(R.drawable.flames_animation);
-        animationBottonFlames = (AnimationDrawable) bienvenidaBinding.flames.getBackground();
+        AnimationDrawable animationBottonFlames = (AnimationDrawable) bienvenidaBinding.flames.getBackground();
 
         animationBottonFlames.setColorFilter(Color.parseColor("#70ffff00"), PorterDuff.Mode.SRC_ATOP);
         animationBottonFlames.start();
-        binding.constraintLayout.setTouchscreenBlocksFocus(true);
 
 
-        // Obtén el botón "Comenzar"
         Button btnComenzar = bienvenidaBinding.btnStartGuide;
+        Button btnCancelar = bienvenidaBinding.btnExit;
         btnComenzar.setOnClickListener(v -> {
             playSound(soundContinue);
             // Inicia la animación
@@ -157,6 +152,21 @@ public class MainActivity extends AppCompatActivity {
                             fadeOutAndStartGuide(bienvenidaBinding.bienvenidaContainer),
                     1600);
         });
+        btnCancelar.setOnClickListener(v -> {
+            ObjectAnimator fadeOut = ObjectAnimator.ofFloat(bienvenidaBinding.bienvenidaContainer, "alpha", 1f, 0f);
+            fadeOut.setDuration(1000);
+
+            fadeOut.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    bienvenidaBinding.bienvenidaContainer.setVisibility(View.GONE); // Oculta vista después de la animación
+                }
+            });
+
+            fadeOut.start();
+        });
+
     }
 
     public void playSound(int sound) {
@@ -165,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fadeOutAndStartGuide(View view) {
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f);
-        fadeOut.setDuration(1000); // Duración de 500ms
+        fadeOut.setDuration(1000);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(fadeOut);
@@ -175,8 +185,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                view.setVisibility(View.GONE); // Ocultar la vista después del fadeOut
-                new GuideManager(MainActivity.this).startGuide(); // Iniciar la guía
+                view.setVisibility(View.GONE); // Oculta la vista después del fadeOut
+                new GuideManager(MainActivity.this).startGuide(); // Inicia la guía
             }
         });
     }

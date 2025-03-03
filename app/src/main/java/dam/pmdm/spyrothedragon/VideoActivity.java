@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
             videoView.start();
 
             videoView.setOnCompletionListener(mp -> {
-                finish();  // al terminar el vídeo cierra la actividad al finalizar el vídeo
+                finish();  // al terminar el vídeo cierra la actividad
             });
         }
 

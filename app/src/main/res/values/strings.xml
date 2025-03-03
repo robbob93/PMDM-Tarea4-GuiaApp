@@ -6,4 +6,20 @@
     <string name="title_about">Acerca de</string>
     <string name="text_about">Aplicación desarrollada por \n <b>Lindsay Barrero Martínez.</b> \n Guía por \n <b>Roberto Linares Rodríguez</b></string>
     <string name="accept">Aceptar</string>
+    <string name="welcome1">Bienvenido a la App inspirada en</string>
+    <string name="welcome2">donde podrás rodearte de dragones, visitar nuevos mundos y descubrir sus tesoros</string>
+    <string name="cancel">cancelar</string>
+    <string name="start">Comenzar</string>
+    <string name="skip_guide">Saltar guía</string>
+    <string name="next">Siguiente</string>
+    <string name="title_end_guide">¡Has completado la guía!</string>
+    <string name="end_guide_step1">Visualización de pantalla de personajes</string>
+    <string name="end_guide_step2">Visualización de pantalla de mundos</string>
+    <string name="end_guide_step3">Visualización de pantalla de coleccionables</string>
+    <string name="end_guide_step4">Visualización de pantalla de información</string>
+    <string name="come_back_to_app">Ir a la app</string>
+    <string name="guide_step1">Aquí podrás conocer a todos los personajes del mundo de Spyro.</string>
+    <string name="guide_step2">En este lugar podrás explorar las distintas áreas del mundo de Spyro</string>
+    <string name="guide_step3">Aquí podrás saber cuáles son los coleccionables del mundo de Spyro</string>
+    <string name="guide_step4">Aqui podras encontrar información sobre los desarrolladores</string>
 </resources>

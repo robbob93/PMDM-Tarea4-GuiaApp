@@ -5,13 +5,9 @@ import android.media.SoundPool;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.transition.TransitionManager;
-
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,12 +24,7 @@ public class GuideManager {
     private int soundEnd;
 
     // Lista de pasos de la guía
-    private final List<GuideStep> steps = Arrays.asList(
-            new GuideStep(R.id.nav_characters, "Aquí podrás conocer a todos los personajes del mundo de Spyro."),
-            new GuideStep(R.id.nav_worlds, "En este lugar podrás explorar las distintas áreas del mundo de Spyro"),
-            new GuideStep(R.id.nav_collectibles, "Aquí podrás saber cuáles son los coleccionables del mundo de Spyro"),
-            new GuideStep(R.id.action_info, "Aqui podras encontrar información sobre los desarrolladores")
-    );
+    private List<GuideStep> steps = Arrays.asList();
 
     public GuideManager(Activity activity) {
         this.activity = activity;
@@ -41,10 +32,18 @@ public class GuideManager {
     }
 
     public void startGuide() {
+
+        steps = Arrays.asList(
+                new GuideStep(R.id.nav_characters, activity.getString(R.string.guide_step1)),
+                new GuideStep(R.id.nav_worlds, activity.getString(R.string.guide_step2)),
+                new GuideStep(R.id.nav_collectibles, activity.getString(R.string.guide_step3)),
+                new GuideStep(R.id.action_info, activity.getString(R.string.guide_step4))
+        );
+
+
         guideOverlay = activity.getLayoutInflater().inflate(R.layout.guide_overlay, container, false);
         container.addView(guideOverlay);
 
-        guideOverlay.setClickable(true);
         guideOverlay.setClickable(true);
         guideOverlay.setFocusable(true);
         guideOverlay.setFocusableInTouchMode(true);
@@ -57,14 +56,15 @@ public class GuideManager {
 
         soundPool = new SoundPool.Builder().setMaxStreams(1).build();
         soundContinue = soundPool.load(activity, R.raw.continue_guide, 1);
-        soundEnd = soundPool.load(activity,R.raw.end_guide,1);
+
 
 
         btnNext.setOnClickListener(v -> {
-            if (activity instanceof MainActivity && currentStep<3) {  // Verifica que sea MainActivity
+            if (activity instanceof MainActivity && currentStep<3) {  // Comprueba que sea MainActivity
                 System.out.println("Current step: " +  currentStep);
                 ((MainActivity) activity).playSound(soundContinue);  // Llamada a playSound() de la MainActivity
-            } else if (currentStep ==3) {
+            } else if (activity instanceof MainActivity && currentStep ==3) {
+                soundEnd = soundPool.load(activity,R.raw.end_guide,1);
                 ((MainActivity) activity).playSound(soundEnd);
             }
             nextStep();
@@ -82,7 +82,6 @@ public class GuideManager {
         GuideStep step = steps.get(stepIndex);
 
         description.setText(step.description);
-        description.setVisibility(View.VISIBLE);
 
         // Posicionar el anillo sobre el botón
         View targetButton = activity.findViewById(step.targetViewId);
@@ -93,7 +92,7 @@ public class GuideManager {
                 description.setY(100);
                 Button btnNext = guideOverlay.findViewById(R.id.btnNext);
                 btnNext.setEnabled(false);
-                // En vez de bloquear la interacción, simulamos el clic después de 2 segundos
+                // En vez de bloquear la interacción, simulamos el clic después de unos instantes
                 targetButton.postDelayed(() -> {
                     targetButton.performClick();
 
@@ -114,18 +113,19 @@ public class GuideManager {
                 float centerX = location[0] + targetButton.getWidth() / 2f;
                 float centerY = location[1] + targetButton.getHeight() / 2f;
 
-                // Convertir coordenadas de pantalla a coordenadas del contenedor (puede variar según tu layout)
+                // Convertir coordenadas de pantalla a coordenadas del contenedor
                 ringHighlight.setX(centerX - ringHighlight.getWidth() / 2f);
                 ringHighlight.setY(centerY - ringHighlight.getHeight() / 1.8f);
 
-                ringHighlight.setVisibility(View.VISIBLE);
+
                 ringHighlight.setAlpha(0f);
-                ringHighlight.animate().alpha(1f).setDuration(1000).start();
                 description.setAlpha(0f);
+                ringHighlight.setVisibility(View.VISIBLE);
+                description.setVisibility(View.VISIBLE);
+
+                ringHighlight.animate().alpha(1f).setDuration(1000).start();
                 description.animate().alpha(1f).setDuration(1000).start();
             });
-
-
         }
     }
 
@@ -138,7 +138,7 @@ public class GuideManager {
         showStep(currentStep);
     }
     private void showSummary() {
-        // Remover la vista anterior
+        // Quitar la vista anterior
         if (guideOverlay != null) {
             container.removeView(guideOverlay);
         }
@@ -168,7 +168,6 @@ public class GuideManager {
 
         GuideStep(int targetViewId, String description) {
             this.targetViewId = targetViewId;
-
             this.description = description;
         }
     }
