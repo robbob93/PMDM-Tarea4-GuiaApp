@@ -52,3 +52,16 @@ El desarrollo de la guía y efectos visuales para esta aplicación ha sido una e
 - Desafíos técnicos: La creación de formas y animaciones con Drawable Animations además del muestreo y edición de elementos de la interfaz ha sido uno de los aspectos más enriquecedores del proyecto y que me ha dado una nueva visión de elemtos a utilizar en mis aplicaciones.
 - Aprendizajes obtenidos: Mejoré mis habilidades en la creación de layout y su posterior edición mediante código en tiempo de ejecución.
 - Reflexión final: Este proyecto no solo me permitió consolidar conocimientos en Android, sino que también aprendi nuevas técnicas y posibilidades a aplicar en las futuras aplicaciones.
+
+## 🖥️ Capturas de pantalla
+- Inicio de la guía
+<br><img width="100" alt="capt_inicio_guia" src="https://github.com/user-attachments/assets/e9815cc3-0278-4917-85d5-9ce73d05b2a3" />
+- Primer paso de la guía
+<br><img width="100" alt="capt_guia1" src="https://github.com/user-attachments/assets/11149857-345f-44ee-a18c-ee064a756371" />
+- Fin de la guía
+<br><img width="100" alt="capt_fin_guia" src="https://github.com/user-attachments/assets/3fc16b73-afa2-4efa-8597-3b18038eaaa0" />
+- Easter egg
+<br><img width="100" alt="capt_flame" src="https://github.com/user-attachments/assets/c889be0c-d510-40ee-a12a-65b24d21534b" />
+
+
+
