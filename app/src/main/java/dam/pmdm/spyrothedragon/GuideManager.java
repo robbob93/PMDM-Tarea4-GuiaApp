@@ -5,13 +5,9 @@ import android.media.SoundPool;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.transition.TransitionManager;
-
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -60,7 +56,7 @@ public class GuideManager {
 
         soundPool = new SoundPool.Builder().setMaxStreams(1).build();
         soundContinue = soundPool.load(activity, R.raw.continue_guide, 1);
-        soundEnd = soundPool.load(activity,R.raw.end_guide,1);
+
 
 
         btnNext.setOnClickListener(v -> {
@@ -68,6 +64,7 @@ public class GuideManager {
                 System.out.println("Current step: " +  currentStep);
                 ((MainActivity) activity).playSound(soundContinue);  // Llamada a playSound() de la MainActivity
             } else if (activity instanceof MainActivity && currentStep ==3) {
+                soundEnd = soundPool.load(activity,R.raw.end_guide,1);
                 ((MainActivity) activity).playSound(soundEnd);
             }
             nextStep();
@@ -85,7 +82,6 @@ public class GuideManager {
         GuideStep step = steps.get(stepIndex);
 
         description.setText(step.description);
-        description.setVisibility(View.VISIBLE);
 
         // Posicionar el anillo sobre el botón
         View targetButton = activity.findViewById(step.targetViewId);
@@ -121,10 +117,13 @@ public class GuideManager {
                 ringHighlight.setX(centerX - ringHighlight.getWidth() / 2f);
                 ringHighlight.setY(centerY - ringHighlight.getHeight() / 1.8f);
 
-                ringHighlight.setVisibility(View.VISIBLE);
+
                 ringHighlight.setAlpha(0f);
-                ringHighlight.animate().alpha(1f).setDuration(1000).start();
                 description.setAlpha(0f);
+                ringHighlight.setVisibility(View.VISIBLE);
+                description.setVisibility(View.VISIBLE);
+
+                ringHighlight.animate().alpha(1f).setDuration(1000).start();
                 description.animate().alpha(1f).setDuration(1000).start();
             });
         }
@@ -169,7 +168,6 @@ public class GuideManager {
 
         GuideStep(int targetViewId, String description) {
             this.targetViewId = targetViewId;
-
             this.description = description;
         }
     }
