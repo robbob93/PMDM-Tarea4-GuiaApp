@@ -42,7 +42,7 @@
         android:layout_width="800dp"
         android:layout_height="800dp"
 
-        android:background="@drawable/tab_focus"
+        android:background="@drawable/ring"
         android:layout_gravity="center"
         android:visibility="invisible"/>
 
