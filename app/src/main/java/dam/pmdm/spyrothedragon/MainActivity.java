@@ -29,7 +29,7 @@ import dam.pmdm.spyrothedragon.databinding.BienvenidaLayoutBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final boolean mostrarGuiaSiempre = true;
+    private final boolean mostrarGuiaSiempre = false;
 
     private ActivityMainBinding binding;
     NavController navController = null;
